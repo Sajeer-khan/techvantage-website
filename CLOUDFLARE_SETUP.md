@@ -1,40 +1,33 @@
-# Cloudflare setup for TechVantage Enterprise
+# TechVantage Cloudflare Workers deployment
 
-## Status
-- GitHub repository: https://github.com/Sajeer-khan/techvantage-website
-- Branch: `main`
-- Website files: committed and ready for static hosting
-- Cloudflare Pages project: **not yet created or verified** by this assistant
-- Cloudflare MCP OAuth authorization: **not yet completed**
+## Confirmed from the Cloudflare dashboard screenshot
+- Project: `techvantage-website`
+- Project type: **Worker** (not Pages)
+- GitHub: `Sajeer-khan/techvantage-website`, branch `main`
+- Deploy command: `npx wrangler deploy`
+- An earlier Worker build completed successfully; a new deployment must be checked after the Wrangler configuration commit.
 
-## Publish site with Cloudflare Pages (no terminal required)
-1. Sign in to https://dash.cloudflare.com/ and select **Workers & Pages**.
-2. Select **Create application** → **Pages** → **Connect to Git / Import an existing Git repository**.
-3. Authorize Cloudflare to access the GitHub repository `Sajeer-khan/techvantage-website` if prompted.
-4. Set project name to `techvantage-website` if available, branch `main`, framework **None**, build command blank (use `exit 0` only when required), and output directory `.`.
-5. Select **Save and Deploy**. Wait for the deployment to show **Success**.
-6. Verify the Cloudflare-assigned `*.pages.dev` URL before adding your custom domain in the project settings.
-7. Confirm the original website content, graphics and contact details before redirecting your real business domain. This is a reconstruction, not an exact original source export.
+## Repository configuration
+- `wrangler.jsonc`: Worker `techvantage-website`; `assets.directory = "./public"`; custom 404 handling.
+- `public/index.html`, `public/css/styles.css`, `public/js/script.js`, `public/assets/`: public static website.
+- No Worker `main` entry point or JavaScript server is required.
 
-After you connect the Git integration, pushes to `main` cause Cloudflare Pages automatic deployments.
+## Final steps in Cloudflare
+1. Open **Workers & Pages** and choose the existing Worker `techvantage-website`.
+2. Open **Deployments** and confirm the latest build uses the GitHub commit containing `wrangler.jsonc`. If it hasn't started, use **Retry build** or the dashboard's deploy control.
+3. Open **Domains** and find the actual `*.workers.dev` URL. Open it and verify TechVantage loads, including CSS, images, and navigation.
+4. After the preview works, open **Domains** → **Add** → **Custom Domain**, and enter `techvantageenterprise.com`. The zone is already in Cloudflare; follow any prompts for old GoDaddy parking A/CNAME records. Do **not** modify MX, SPF, DKIM, DMARC or other email records.
+5. Optionally add `www.techvantageenterprise.com` as a second custom domain or set a redirect to the root domain. Verify HTTPS and contact links.
 
-## Connect an AI coding agent to Cloudflare (optional)
-Cloudflare's source: https://developers.cloudflare.com/agent-setup/prompt.md
+If Cloudflare reports a conflicting DNS A or CNAME record for the website hostname, inspect that particular record (likely GoDaddy parking). Remove or replace only the confirmed conflicting **web** record as instructed by Cloudflare. Do not change nameservers: the zone is already protected by Cloudflare.
 
-This repo includes a portable `.mcp.json` containing Cloudflare API, documentation, bindings, builds and observability servers. Open this repo in a compatible MCP-aware agent (for example GitHub Copilot CLI, recent VS Code Agent Host, or other client supporting portable `.mcp.json`), review and trust the server list, and sign in through Cloudflare OAuth on first use.
+Cloudflare references:
+- https://developers.cloudflare.com/workers/static-assets/
+- https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
 
-If you use **Codex CLI**, the official agent setup provides these commands to run on your own computer:
+## Optional AI agent integration
+Source: https://developers.cloudflare.com/agent-setup/prompt.md
 
-```bash
-npx -y skills add cloudflare/skills --skill '*' --yes --global
-codex mcp add cloudflare --url https://mcp.cloudflare.com/mcp
-codex mcp add cloudflare-docs --url https://docs.mcp.cloudflare.com/mcp
-codex mcp add cloudflare-bindings --url https://bindings.mcp.cloudflare.com/mcp
-codex mcp add cloudflare-builds --url https://builds.mcp.cloudflare.com/mcp
-codex mcp add cloudflare-observability --url https://observability.mcp.cloudflare.com/mcp
-codex mcp login cloudflare
-```
+The repository contains `.mcp.json` with official Cloudflare MCP endpoints for a compatible coding agent. Connecting its Cloudflare OAuth in your local agent environment is a separate optional step. No tokens should be stored in GitHub.
 
-Restart the agent to load new MCP servers. Installation and OAuth must happen in your coding agent / local environment; a ChatGPT web conversation cannot apply global agent configuration to your device.
-
-Never commit API tokens or OAuth secrets to GitHub.
+This website is a reconstruction of a previous published ChatGPT site, not an exact source export.
