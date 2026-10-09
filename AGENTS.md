@@ -1,20 +1,19 @@
-# TechVantage — agent instructions
+# TechVantage — coding agent instructions
 
-This repository contains the TechVantage Enterprise static website. It has no build step and is intended for Git-connected Cloudflare Pages hosting.
+This is a static site deployed on **Cloudflare Workers Static Assets** from GitHub repository `Sajeer-khan/techvantage-website`.
 
-## Cloudflare
-- Use official Cloudflare documentation for changing Cloudflare settings: https://developers.cloudflare.com/
-- The repository includes a portable `.mcp.json` with five official Cloudflare MCP endpoints; client support and OAuth authorization are required before account operations.
-- Never commit Cloudflare tokens, account secrets, or OAuth credentials. Do not claim to have deployed unless Cloudflare confirms a successful deployment.
-- For Cloudflare Pages: production branch `main`, framework **None**, build command blank (or `exit 0` if required), build output directory `.`.
-- Changes to `main` deploy automatically only after Cloudflare Pages Git integration is connected.
-- Avoid replacing the reconstruction with claims or images that imply permission from a third-party client.
+## Deployment
+- Production branch: `main`
+- Worker: `techvantage-website`
+- `wrangler.jsonc` configures `assets.directory = "./public"`
+- Build command: none; deploy command: `npx wrangler deploy`
+- Update the files under `public/` to change the production website. The root-level copies are archival.
+- Do not claim that deployment occurred just because a GitHub commit succeeded; check the latest deployment in the Cloudflare dashboard.
+- Do not commit Cloudflare secrets, API tokens, or OAuth credentials.
+- For custom domains, use the Cloudflare dashboard after validating the `workers.dev` URL. Preserve MX/SPF/DKIM/DMARC DNS for email.
 
-## Tooling
-- Cloudflare's official agent installation source is https://developers.cloudflare.com/agent-setup/prompt.md .
-- For an agent that supports installing Skills, install Cloudflare skills via its official method. The official generic command is `npx -y skills add cloudflare/skills --skill '*' --yes --global`; this must be run on the user's own supported agent environment, not in a transient assistant sandbox.
-- See `CLOUDFLARE_SETUP.md` for activation and deployment instructions.
+## Cloudflare agent integrations
+See https://developers.cloudflare.com/agent-setup/prompt.md and `.mcp.json`. A compatible agent must explicitly authorize Cloudflare OAuth; repository configuration alone does not connect a Cloudflare account.
 
-## Website
-- `index.html`, `css/styles.css`, `js/script.js`, and `assets/` provide the site. Keep asset links valid.
-- The site is a reconstruction of a previously published ChatGPT Site, not an exact export of the original source.
+## Project
+The site is reconstructed from a previously published ChatGPT Site. It is not a source-identical export. Client descriptions and illustrative graphics must not imply unauthorised endorsements.
