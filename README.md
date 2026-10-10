@@ -71,3 +71,5 @@ pnpm run build
 ```
 
 The site is a static marketing website. Contact actions open phone, email, and WhatsApp links; they do not require a backend service.
+
+<!-- Cloudflare Git reconnection deployment trigger: 2026-10-10 -->
