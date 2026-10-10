@@ -1,5 +1,24 @@
 # TechVantage Enterprise website
 
+## Cloudflare Workers deployment (current live hosting setup)
+
+This GitHub repository is connected to the existing Cloudflare Worker named `techvantage-website`. It includes a **prebuilt static export** in `dist/client/` and a `wrangler.jsonc` that points to that directory. The original Work design is preserved.
+
+Use these settings in **Cloudflare Dashboard → Workers & Pages → techvantage-website → Settings → Builds**:
+
+- Connected GitHub repository: `Sajeer-khan/techvantage-website`
+- Production branch: `main`
+- Root directory: `/`
+- **Build command: leave empty** (the prebuilt `dist/client/` is already committed)
+- **Deploy command: `npx wrangler deploy`**
+
+A push to `main` triggers an automated deployment **only while Cloudflare's Git integration is enabled**. After the build succeeds, open the Worker's **Domains** tab and test its `workers.dev` URL. Configure the custom domain there without replacing email DNS records.
+
+The alternative **Cloudflare Pages** instructions below are retained for reference; you do **not** need to create a separate Pages project for the existing Worker.
+
+---
+
+
 This is the complete source for the TechVantage Enterprise website, configured to export static files for Cloudflare Pages. The prebuilt export is also included in `dist/client/` for previewing or direct upload.
 
 ## Publish from GitHub to Cloudflare Pages
