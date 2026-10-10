@@ -1,7 +1,5 @@
 {
   "name": "techvantage-website",
   "compatibility_date": "2026-10-10",
-  "assets": {
-    "directory": "./dist/client"
-  }
+  "pages_build_output_dir": "./dist/client"
 }
